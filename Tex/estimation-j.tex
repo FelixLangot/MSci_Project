@@ -1,0 +1,265 @@
+\documentclass[12pt,a4paper]{article}
+
+%%%%%%%%%%% Here are full base TeX packages (Base-LaTeX Reference)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[round, comma, sort&compress]{natbib}
+\usepackage{alltt}
+\usepackage{color}
+\usepackage{graphics}             % basic graphic package, extented to graphicx
+%\usepackage{graphpap}
+%\usepackage{subfigure}
+\usepackage{ifthen}
+\usepackage{latexsym}
+\usepackage{makeidx}
+\usepackage{makeidx}
+\usepackage[english]{babel}
+\usepackage{hyperref}
+\usepackage{epstopdf}
+\usepackage{eurosym}
+%%%%%%%%%%% Here are usual font-related packages
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[latin1]{inputenc}
+\usepackage[T1]{fontenc}
+
+
+%%%%%%%%%%% Here are some graphics-related packages
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[dvips]{graphicx}      % extented graphic package
+%\usepackage{flafter}              % floating after its location
+%\usepackage{afterpage}            % afterpage clear
+\usepackage{subfig}
+\usepackage{multirow}
+
+%%%%%%%%%%% Here are AMS-related packages
+\usepackage[centertags]{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{threeparttable}
+\usepackage[capposition=bottom]{floatrow}
+
+%%%%%%%%%%% Here are graphics-related declarations
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\renewcommand{\textfraction}{0.15}  % 0.2
+\renewcommand{\topfraction}{0.85}   % 0.7
+\renewcommand{\bottomfraction}{0.65} % 0.3
+\renewcommand{\floatpagefraction}{0.60} %0.5
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\setlength{\floatsep}{10pt plus 3pt minus 2pt}
+\setlength{\textfloatsep}{10pt plus 3pt minus 2pt}
+\setlength{\intextsep}{10pt plus 3pt minus 2pt}
+
+
+  \setlength{\textwidth}{16cm}
+  \setlength{\oddsidemargin}{-.2cm}
+  \setlength{\evensidemargin}{-.2cm}
+  \setlength{\textheight}{23cm}
+  \setlength{\parindent}{0.0in}
+  \renewcommand{\baselinestretch}{1.25} \setlength{\parskip}{6pt}
+
+
+%%%%%%%%%%% Here are theorem_related declarations
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\newtheorem{defi}{Definition}
+\newtheorem{theo}{Theorem}
+\newtheorem{prop}{Proposition}
+\newtheorem{property}{Property}
+\newtheorem{coro}{Corollary}
+\newtheorem{propannex}{Proposition}
+
+\newcounter{countAnnexA}
+\setcounter{countAnnexA}{0}
+\renewcommand{\propannex}{\addtocounter{countAnnexA}{1}
+\noindent \large \textbf{Proposition \thesection.\thecountAnnexA}
+\normalsize}
+
+%\usepackage{setspace}
+%\onehalfspacing
+
+\begin{document}
+
+\section{The problem}
+
+The model is 
+$$
+F(H,z_i) = \frac{1}{H} \frac{c K(z_i)}{1+z_i}\frac{1}{\text{conv}}~~~~\text{for}~~i=1,...,T
+$$
+The data are $D_a(i)~~\text{for}~~i=1,...,T$
+with $D_a(i)>0$ and $F(H,z_i)>0$, for $H>0$ and $\forall z_i>0$. $T = 22$ is the number of observed clusters.
+
+\paragraph{Objective:} to find $\widehat{H}$ which the best estimator of the unknown $H$ such that $D_a(i) = F(H,z_i)$.
+
+\section{Estimation of $H$ using linear method}
+
+This can be rewritten as follows, for $i=1,...,T$:
+\begin{eqnarray*}
+D_a(i) &=& F(H,z_i) \\
+D_a(i) &=&  \frac{1}{H} \frac{c K(z_i)}{1+z_i}\frac{1}{\text{conv}}  \\
+H &=& \left( \frac{c K(z_i)}{1+z_i}\frac{1}{\text{conv}} \cdot \frac{1}{D_a(i)}\right) \equiv X_i
+\end{eqnarray*}
+We assume that the link $X_i = H$ is not exact because $D_a(i)$, and thus $X_i$, is observed with a measurment error, centered around zero. Therefore, the empirical link is $X_i = H+\varepsilon_i$, with $Var(\varepsilon_i) = s^2$ and $Cov(\varepsilon_i,\varepsilon_{i'}) = 0$, $\forall i,i'$. 
+The estimator of $H$, denoted $\widehat{H}$, is obtained for the lowest values of $\varepsilon_i=X_i-H$:
+$$
+\widehat{H} = \arg \min _H G(H) \equiv \arg\min _H\sum_i \varepsilon_i^2 ~~\Leftrightarrow~~\widehat{H} = \arg\min _H \sum_i \left(X_i - H\right)^2
+$$ 
+The function $G$ is at its minimum value for $H=\widehat{H}$, if $G'(\widehat{H}) = 0$, ie. 
+$$
+G'(\widehat{H}) = 0~~ \Leftrightarrow ~~0 = -2 \sum_{i=1}^{T} \left(X_i - \widehat{H}\right)~~ \Leftrightarrow ~~0 =\sum_{i=1}^{T} \left(X_i - \widehat{H}\right)~~ \Rightarrow \widehat{H} = \frac{1}{T}\sum_{i=1}^{T} X_i
+$$
+We deduce from this result, 
+$$
+\widehat{H} = \frac{1}{T}\sum_{i=1}^{T} \left( H + \varepsilon_i \right) = H+ \frac{1}{T}\sum_{i=1}^{T}  \varepsilon_i
+$$
+Therefore, the variance of $\widehat{H}$, is given by
+$$
+\sigma_H^2 = Var(\widehat{H}) = \frac{1}{J} \sum_{j=1}^J \left( \widehat{H}^{\{j\}} - H \right)^2 = \frac{1}{J} \sum_{j=1}^J \left( \frac{1}{T}\sum_{i=1}^{T}  \varepsilon_i^{\{j\}} \right)^2  = \frac{1}{T} s^2
+$$
+where $s$ denotes the asymptotic standard deviation of $\varepsilon$,  $\widehat{H}^{\{j\}}$ one particular estimate of $\widehat{H}$ for one sample $j$ of the complete distribution of $\{\varepsilon_i^{\{s\}} \}_{s=1}^J$.\footnote{This result is obtained using the assumptions made on $\varepsilon_i$, that implies that $\frac{1}{J} \sum_{j=1}^J\left(\varepsilon_i^{\{j\}}\right)^2 = s^2$, $\forall i$,  and $\frac{1}{J} \sum_{j=1}^J\varepsilon^{\{j\}}_i \varepsilon^{\{j\}}_{i'}=0$, $\forall i,i' \in [1,...,T]$. }$^{,}$\footnote{Remark that 
+	\begin{eqnarray*}
+		\left(\sum_i \varepsilon_i \right)^2 &=& \varepsilon_1^2 + ... + \varepsilon_T^2 \\
+		& & + 2 \varepsilon_1\varepsilon_2 +...+2 \varepsilon_1\varepsilon_T \\
+		& & + 2 \varepsilon_2\varepsilon_3 +...+2 \varepsilon_2\varepsilon_T \\
+		& & + 2 \varepsilon_3\varepsilon_4 +...+2 \varepsilon_3\varepsilon_T \\
+		& & \colon \\
+		& & + 2 \varepsilon_{T-2}  \varepsilon_{T-1} + 2 \varepsilon_{T-2} \varepsilon_T\\
+		& & + 2 \varepsilon_{T-1} \varepsilon_T
+	\end{eqnarray*}
+	This implies
+	\begin{eqnarray*}
+		\sigma_H^2 &=& 
+		\frac{1}{J} \sum_{j=1}^J 
+		\left( \frac{1}{T}\sum_i \varepsilon_i^{\{j\}} \right)^2 \\
+		&=& \frac{1}{J} \sum_{j=1}^J \frac{1}{T^2}
+		\left[ 
+		\begin{array}{l}
+			\left(\varepsilon_1^{\{j\}}\right)^2 + ... + \left(\varepsilon_T^{\{j\}}\right)^2 \\
+			+ 2 \varepsilon_1^{\{j\}}\varepsilon_2^{\{j\}} +...+2 \varepsilon_1^{\{j\}}\varepsilon_T^{\{j\}} \\
+			+ 2 \varepsilon_2^{\{j\}}\varepsilon_3^{\{j\}} +...+2 \varepsilon_2^{\{j\}}\varepsilon_T^{\{j\}} \\
+			+ 2 \varepsilon_3^{\{j\}}\varepsilon_4^{\{j\}} +...+2 \varepsilon_3^{\{j\}}\varepsilon_T^{\{j\}} \\
+			\colon \\
+			+ 2 \varepsilon_{T-2}^{\{j\}}  \varepsilon_{T-1}^{\{j\}} + 2 \varepsilon_{T-2}^{\{j\}} \varepsilon_T^{\{j\}}\\
+			+ 2 \varepsilon_{T-1}^{\{j\}} \varepsilon_T^{\{j\}}
+		\end{array}
+		\right] 
+		= 
+		\frac{1}{T^2}
+		\left[ 
+		\begin{array}{l}
+			\frac{1}{J} \sum_{j=1}^J \left(\varepsilon_1^{\{j\}}\right)^2 + ... + \frac{1}{J} \sum_{j=1}^J\left(\varepsilon_T^{\{j\}}\right)^2 \\
+			+ 2 \frac{1}{J} \sum_{j=1}^J \varepsilon_1^{\{j\}}\varepsilon_2^{\{j\}} +...+2 \frac{1}{J} \sum_{j=1}^J \varepsilon_1^{\{j\}}\varepsilon_T^{\{j\}} \\
+			+ 2 \frac{1}{J} \sum_{j=1}^J \varepsilon_2^{\{j\}}\varepsilon_3^{\{j\}} +...+2 \frac{1}{J} \sum_{j=1}^J \varepsilon_2^{\{j\}}\varepsilon_T^{\{j\}} \\
+			+ 2 \frac{1}{J} \sum_{j=1}^J \varepsilon_3^{\{j\}}\varepsilon_4^{\{j\}} +...+2 \frac{1}{J} \sum_{j=1}^J \varepsilon_3^{\{j\}}\varepsilon_T^{\{j\}} \\
+			\colon \\
+			+ 2 \frac{1}{J} \sum_{j=1}^J\varepsilon_{T-2}^{\{j\}}  \varepsilon_{T-1}^{\{j\}} + 2 \frac{1}{J} \sum_{j=1}^J\varepsilon_{T-2}^{\{j\}} \varepsilon_T^{\{j\}}\\
+			+ 2 \frac{1}{J} \sum_{j=1}^J\frac{1}{J} \sum_{j=1}^J\varepsilon_{T-1}^{\{j\}} \varepsilon_T^{\{j\}}
+		\end{array}
+		\right]\\
+		&=&
+		\frac{1}{T} s^2
+\end{eqnarray*}} Therfore the estimator of $H$ is:
+$$
+\widehat{H} = \frac{1}{T}\sum_i X_i~~~~~~ \widehat{\sigma}_H  = \frac{1}{\sqrt{T}} \widehat{s}
+$$
+where the empirical value of the standard error of $\varepsilon$ is given by $\widehat{s}^2=\frac{1}{T} \sum_i (D_a(i) - \widehat{H})^2 =  \frac{1}{T} \sum_i \widehat{\varepsilon}_i^2$. 
+
+The advantage of this method is its simplicity, but its shortcoming comes of its restriction concerning the errors: they affect linearly and additively the model. When the link between measurement errors and the data is highly nonlinear, or when the measurement errors are large, this method can introduce a bias in the estimation of $H$ as well as on its standard error. These two risks exist in our experiment.  
+
+\section{Estimation of $H$ using non-linear method}
+
+The estimator $\widehat{H}$ of $H$ is the solution of the following problem:
+$$
+\widehat{H} = \arg \min _H {\cal G}(H) = \arg \min _H \sum_{i=1}^T \frac{(D_a(i) - F(H,z_i))^2}{\sigma_a(i)^2}
+$$
+where the function  ${\cal G}(H)$ gives a measure of the distance between data and theory for each $i$. Each distance for each $i$ is weighted by the quality of the information on this point $i$: if the standard error $\sigma_a(i)$ for this point is large, the information provided by the point $i$ has a poor quality. The function ${\cal G}(H)$ is distributed as a $\chi^2_{df=T-1}$ where $df$ denotes the degree of freedom.
+
+\paragraph{Measuring the error $\sigma_a(i)$ on each point $i$.} The data $D_a(i)$ are deduced from the vector of observations $O_i$, with $dim(O_i)=P$, that are measures with errors. The vector of error is $e_i$. The link between data $D_a(i)$ and the observations is given by $D_a(i) = S(O_i)$, $\forall i=1,...,T$. Therefore, a  distribution of $\{D_a(i)^{\{s\}}\}_{s=1}^{N_s}$ can be generated using random draws, $s=1,...,N_s$, of $\{O_i^{\{s\}}\}_{s=1}^{N_s}$. To this end, we assume that each element of the vector $O_i^{\{s\}}$ is normaly distributed around its observed values $O_i$ with a vector of standard errors $\sigma_e(i)$.  We assume that there are only $I<P$ independant errors, each error corresponding to one experimental measure. We deduce  the distribution $\{D_a(i)^{\{s\}}\}_{s=1}^{N_s}$ from $\{D_a(i)^{\{s\}}\}_{s=1}^{N_s} = S(\{O_i^{\{s\}}\}_{s=1}^{N_s})$ that allows us to obtain the standard error on each observation $\sigma_a(i)$. 
+
+Using our data $D_a(i)$ and the standard errors $\sigma_a(i)$, for $i=1,...,T$, we then obtain $\widehat{H}$ as the minimum of  ${\cal G}(H)$. 
+
+\paragraph{Measuring the error on the estimator $H$.} In order to compute the standard error of the estimator $\widehat{H}$, we also use the data distribution $\{D_a(i)^{\{s\}}\}_{s=1}^{N_s}$. For each draw $s$ of the $T$ observations, we can deduce 
+ $$
+ \widehat{H}^{\{s\}} = \arg \min _H {\cal G}(H) = \arg \min _H \sum_{i=1}^T \frac{(D_a(i)^{\{s\}} - F(H,z_i))^2}{\sigma_a(i)^2}
+ $$
+This gives an empirical distribution $\{\widehat{H}^{\{s\}}\}_{s=1}^{N_s}$ from which the confidence band of $\widehat{H}$ is deduced. Given the nonlinearity of ${\cal G}(H)$, this confidence band is not symetrical around the estimated value $\widehat{H}$. 
+
+\paragraph{Constraints imposed during the estimation process.} Firstly, the observations $O_i$ must be bounded. The ramdom values draw using their standard errors are constrained to be in a truncated support. Secondly, the function $S(\cdot)$ is highly nonlinear and thus can lead to generate outliers (negative or infinite values for $D_a$). We then choose to exclude these outliers by suppressing the negative values and the highest values representing less than 2.5\% of the distribution.    
+
+\end{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+We suppose that $\widetilde{X}_i$ is obtained from $D_a(i)$ which is a particular realization of the ramdom variable $D_a$. We assume that the observation $\widetilde{X}_{i}^{\{j\}}$ is composed by the realization of its real value $X_{i}^{\{j\}}$ and a noise $\varepsilon_{i}^{\{j\}}$ for each sample $j=1,...,J$:\footnote{Firstly, it is assumed that $Var(\varepsilon^{\{j\}}) = Var(\varepsilon_i) = s^2$, $\forall i,j$: the variance over one sample is cantant ans is equal to the variance of one $\varepsilon_i$ over all sample $j$. Secondly, the noice are not temporally correlated: $Cov(\varepsilon^{\{j\}}_i,\varepsilon^{\{j\}}_{i'}) = 0$, $\forall i,i'$ within all sample $j$.} $\widetilde{X}_{i}^{\{j\}} = X_{i}^{\{j\}} - \varepsilon_{i}^{\{j\}}$.
+
+Therefore, an estimator of $H$ can be obtain using the statistical model
+$$
+X_i^{\{j\}} = H + \varepsilon_i^{\{j\}}~~~\text{with}~~\lim_{J\rightarrow \infty} \frac{1}{J} \sum_{j=1}^J \frac{1}{T} \sum_{i=1}^T\varepsilon_i^{\{j\}} = 0
+%\mathbb{E}\varepsilon_i = 0
+$$
+The estimator of $H$, denoted $\widehat{H}$, is obtained for the lowest values of $\varepsilon^{\{j\}}_i=X_i^{\{j\}}-H$:
+$$
+\widehat{H}^{\{j\}} = \arg \min _H G(H) \equiv \arg\min _H\sum_i \left(\varepsilon_i^{\{j\}} \right)^2 ~~\Leftrightarrow~~\widehat{H}^{\{j\}} = \arg\min _H \sum_i \left(X_i^{\{j\}} - H\right)^2
+$$ 
+The function $G$ is at its minimum value for $H=\widehat{H}^{\{j\}}$, if $G'(\widehat{H}^{\{j\}}) = 0$. Therefore, $\widehat{H}^{\{j\}}$ must solve
+$$
+G'(\widehat{H}^{\{j\}}) = 0~~ \Leftrightarrow ~~0 = -2 \sum_{i=1}^{T} \left(X_i^{\{j\}} - \widehat{H}^{\{j\}}\right)~~ \Leftrightarrow ~~0 =\sum_{i=1}^{T} \left(X_i^{\{j\}} - \widehat{H}^{\{j\}}\right)~~ \Rightarrow \widehat{H}^{\{j\}} = \frac{1}{T}\sum_{i=1}^{T} X_i^{\{j\}}
+$$
+We deduce from this result, 
+$$
+\widehat{H}^{\{j\}} = \frac{1}{T}\sum_{i=1}^{T} \left( H + \varepsilon_i^{\{j\}}\right) = H+ \frac{1}{T}\sum_{i=1}^{T}  \varepsilon_i^{\{j\}}
+$$
+Therefore, the variance of $\widehat{H}^{\{j\}}$, is given by\footnote{Remark that 
+	\begin{eqnarray*}
+		\left(\sum_i \varepsilon_i \right)^2 &=& \varepsilon_1^2 + ... + \varepsilon_T^2 \\
+		& & + 2 \varepsilon_1\varepsilon_2 +...+2 \varepsilon_1\varepsilon_T \\
+		& & + 2 \varepsilon_2\varepsilon_3 +...+2 \varepsilon_2\varepsilon_T \\
+		& & + 2 \varepsilon_3\varepsilon_4 +...+2 \varepsilon_3\varepsilon_T \\
+		& & \colon \\
+		& & + 2 \varepsilon_{T-2}  \varepsilon_{T-1} + 2 \varepsilon_{T-2} \varepsilon_T\\
+		& & + 2 \varepsilon_{T-1} \varepsilon_T
+	\end{eqnarray*}
+	This implies
+	\begin{eqnarray*}
+		\sigma_H^2 &=& 
+		\frac{1}{J} \sum_{j=1}^J 
+		\left( \frac{1}{T}\sum_i \varepsilon_i^{\{j\}} \right)^2 \\
+		&=& \frac{1}{J} \sum_{j=1}^J \frac{1}{T^2}
+		\left[ 
+		\begin{array}{l}
+			\left(\varepsilon_1^{\{j\}}\right)^2 + ... + \left(\varepsilon_T^{\{j\}}\right)^2 \\
+			+ 2 \varepsilon_1^{\{j\}}\varepsilon_2^{\{j\}} +...+2 \varepsilon_1^{\{j\}}\varepsilon_T^{\{j\}} \\
+			+ 2 \varepsilon_2^{\{j\}}\varepsilon_3^{\{j\}} +...+2 \varepsilon_2^{\{j\}}\varepsilon_T^{\{j\}} \\
+			+ 2 \varepsilon_3^{\{j\}}\varepsilon_4^{\{j\}} +...+2 \varepsilon_3^{\{j\}}\varepsilon_T^{\{j\}} \\
+			\colon \\
+			+ 2 \varepsilon_{T-2}^{\{j\}}  \varepsilon_{T-1}^{\{j\}} + 2 \varepsilon_{T-2}^{\{j\}} \varepsilon_T^{\{j\}}\\
+			+ 2 \varepsilon_{T-1}^{\{j\}} \varepsilon_T^{\{j\}}
+		\end{array}
+		\right] 
+		= 
+		\frac{1}{T^2}
+		\left[ 
+		\begin{array}{l}
+			\frac{1}{J} \sum_{j=1}^J \left(\varepsilon_1^{\{j\}}\right)^2 + ... + \frac{1}{J} \sum_{j=1}^J\left(\varepsilon_T^{\{j\}}\right)^2 \\
+			+ 2 \frac{1}{J} \sum_{j=1}^J \varepsilon_1^{\{j\}}\varepsilon_2^{\{j\}} +...+2 \frac{1}{J} \sum_{j=1}^J \varepsilon_1^{\{j\}}\varepsilon_T^{\{j\}} \\
+			+ 2 \frac{1}{J} \sum_{j=1}^J \varepsilon_2^{\{j\}}\varepsilon_3^{\{j\}} +...+2 \frac{1}{J} \sum_{j=1}^J \varepsilon_2^{\{j\}}\varepsilon_T^{\{j\}} \\
+			+ 2 \frac{1}{J} \sum_{j=1}^J \varepsilon_3^{\{j\}}\varepsilon_4^{\{j\}} +...+2 \frac{1}{J} \sum_{j=1}^J \varepsilon_3^{\{j\}}\varepsilon_T^{\{j\}} \\
+			\colon \\
+			+ 2 \frac{1}{J} \sum_{j=1}^J\varepsilon_{T-2}^{\{j\}}  \varepsilon_{T-1}^{\{j\}} + 2 \frac{1}{J} \sum_{j=1}^J\varepsilon_{T-2}^{\{j\}} \varepsilon_T^{\{j\}}\\
+			+ 2 \frac{1}{J} \sum_{j=1}^J\frac{1}{J} \sum_{j=1}^J\varepsilon_{T-1}^{\{j\}} \varepsilon_T^{\{j\}}
+		\end{array}
+		\right]\\
+		&=&
+		\frac{1}{T} s^2
+\end{eqnarray*}} 
+$$
+\sigma_H^2 = Var(\widehat{H}^{\{j\}}) = \frac{1}{J} \sum_{j=1}^J \left( \widehat{H}^{\{j\}} - H \right)^2 = \frac{1}{J} \sum_{j=1}^J \left( \frac{1}{T}\sum_{i=1}^{T}  \varepsilon_i^{\{j\}} \right)^2  = \frac{1}{T} s^2
+$$
+where $s$ denotes the asymptotic standard deviation of $\varepsilon$ and $\frac{1}{J} \sum_{j=1}^J\left(\varepsilon_i^{\{j\}}\right)^2 = s^2$, $\forall i$,  and $\frac{1}{J} \sum_{j=1}^J\varepsilon^{\{j\}}_i \varepsilon^{\{j\}}_{i'}=0$, $\forall i,i' \in [1,...,T]$ (See the asumptions on $\varepsilon$). Therfore the estimator of $H$ is:
+$$
+\widehat{H} = \frac{1}{T}\sum_i X_i~~~~~~ \widehat{\sigma}_H  = \frac{1}{\sqrt{T}} \widehat{s}
+$$
+where the empirical value of the standard error of $\varepsilon$ is given by $\widehat{s}^2=\frac{1}{T} \sum_i (D_a(i) - \widehat{H})^2 =  \frac{1}{T} \sum_i \widehat{\varepsilon}^2$.
+
